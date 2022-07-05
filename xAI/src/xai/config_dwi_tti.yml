@@ -1,0 +1,61 @@
+data:
+  inputPath: "./xAI/data/1000plus_coregistered/dwi+flair_192x192x48"
+  outputPath: "./xAI/output/tti_classification/1CNN_dicho/groupnet_pretrained_fold0_test"
+#  inputPath: "/fast/work/users/jrieger_c/mmop_data/1000plus_coregistered/dwi+flair_192x192x48"
+#  outputPath: "/fast/work/users/jrieger_c/tti_results/xAIs/output/tti_classification/1CNN_dicho/groupnet_pretrained_fold0_test"
+  #  outputPath: "../../output/tti_regression/1CNN_minutes/convnet"
+  batchSize: 1
+  numDim: 3 # 2D images or 3D images
+#  clinical: # optional (required for the entire model)
+#    inputPath: "../../data/clinical/dicho_baseline"
+  foldsPath: "./xval_folds_tti.npy"
+  patientIdsPath: "./xAI/data/patient_ids.csv"
+model:
+  path: "./xAI/models/tti_classification/1CNN_dicho/groupnet_pretrained/fold0_groupnet_pretrained_bs8_dr0.3_ep200_flt8_k_reg1e-06_lr0.01_dwi_mmnt0.9_SGD_model.h5"
+#  path: "./xAI/models/tti_regression/1CNN_minutes/convnet/fold1_convnet_REG_bs8_cln_dpth8,256,128_cls_dpth256_dr0.2_epch200_h_outD4H_flts8_krn_reg1e-06_lr0.001_mode-dwi_mmnt0.9_SGD_stgs1,1,1,1_model.h5"
+analyzers:
+#  - vanillaGradients
+  - smoothGrad:
+      numSamples: 32
+      tag: "32-identity-norm"
+#  - integratedGradients:
+#      steps: 32
+#  - inputsGradients
+  # - occlusionSensitivity:
+  #     occludingVortex: 0
+  #     patchSize: [40, 40, 10]
+  #     # tag: "1"
+#  - gradcam:
+#      layerName: stage5_unit1/gconv
+##      layerName: stage5_unit1/conv
+#      guidedGrads: True
+#      normGrads: False
+#      filterValues: True
+#      tag: "gg"
+#  - gradcam:
+#      layerName: stage5_unit1/gconv
+##      layerName: stage5_unit1/conv
+#      guidedGrads: False
+#      normGrads: False
+#      filterValues: True
+#  - gradcampp:
+#      layerName: stage5_unit1/gconv
+##      layerName: stage5_unit1/conv
+#      guidedGrads: True
+#      normGrads: False
+#      filterValues: True
+#      tag: "gg"
+#  - gradcampp:
+#      layerName: stage5_unit1/gconv
+##      layerName: stage5_unit1/conv
+#      guidedGrads: False
+#      normGrads: False
+#      filterValues: True
+lossFunction: identity # mean, max, index, identity
+heatmap:
+  standardize: False
+  normalize: True
+  threshold: False
+  convert: False
+  pad: True
+  to_grayscale: False

@@ -1,0 +1,14 @@
+name: xai-bravenet-innv
+channels:
+- conda-forge
+- defaults
+dependencies:
+- pip
+- nibabel
+- pyyaml
+- python=3.6
+- pylint
+- pip:
+  - tensorflow==2.1
+# tensorflow==2.1
+# - tf-keras-vis
